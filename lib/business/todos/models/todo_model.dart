@@ -11,18 +11,22 @@ class TodoModel extends BaseModel<AppState> {
 
   List<TodoState> todoList;
   Function(String) onCreate;
-  Function(int, bool) onUpdate;
+  Function(TodoState) onUpdate;
+  VoidCallback onPop;
+  VoidCallback onPush;
 
-  TodoModel.build(
-      {@required this.todoList,
-      @required this.onCreate,
-      @required this.onUpdate})
-      : super(equals: [todoList]);
+  TodoModel.build({
+    @required this.todoList,
+    @required this.onCreate,
+    @required this.onUpdate,
+    @required this.onPop,
+  }) : super(equals: [todoList]);
 
   @override
   TodoModel fromStore() => TodoModel.build(
         todoList: state.todoList,
         onCreate: (title) => dispatch(AddAction(title: title)),
-        onUpdate: (id, done) => dispatch(UpdateAction(id: id, done: done)),
+        onUpdate: (todoState) => dispatch(UpdateAction(todoState: todoState)),
+        onPop: () => dispatch(NavigateAction.pop()),
       );
 }

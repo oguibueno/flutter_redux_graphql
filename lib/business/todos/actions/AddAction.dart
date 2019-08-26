@@ -10,12 +10,13 @@ class AddAction extends ReduxAction<AppState> {
 
   @override
   AppState reduce() => state.copy(
-      todoList: List.from(state.todoList)
-        ..add(
-          new TodoState(
-            id: state.todoList.length > 0 ? state.todoList.last.id + 1 : 1,
-            title: title,
-            done: false,
+        todoList: List.from(state.todoList)
+          ..add(
+            new TodoState(
+              id: state.todoList.length > 0 ? state.todoList.last.id + 1 : 1,
+              title: title,
+              done: false,
+            ),
           ),
-        ));
+      );
 }

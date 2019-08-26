@@ -4,16 +4,17 @@ import 'package:async_redux/async_redux.dart';
 import 'package:flutter_redux_graphql/business/todos/models/todo_state.dart';
 
 class UpdateAction extends ReduxAction<AppState> {
-  final int id;
-  final bool done;
+  final TodoState todoState;
 
-  UpdateAction({@required this.id, @required this.done}) : assert(id > 0);
+  UpdateAction({@required this.todoState}) : assert(todoState.id > 0);
 
   @override
   AppState reduce() => state.copy(
       todoList: state.todoList
           .map<TodoState>(
-            (_) => _.id == id ? _ = _.copy(done: done) : _,
+            (_) => _.id == todoState.id
+                ? _ = _.copy(title: todoState.title, done: todoState.done)
+                : _,
           )
           .toList());
 }

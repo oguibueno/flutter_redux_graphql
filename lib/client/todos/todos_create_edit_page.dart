@@ -1,18 +1,25 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-class TodosCreatePage extends StatefulWidget {
-  final Function(String) onCreate;
+import '../../business/todos/models/todo_state.dart';
 
-  TodosCreatePage({Key key, this.onCreate}) : super(key: key);
+class TodosCreateEditPage extends StatefulWidget {
+  final TodoState todoState;
+  final Function(String) onCreate;
+  final Function(TodoState) onUpdate;
+  final VoidCallback onPop;
+
+  TodosCreateEditPage(
+      {Key key, this.todoState, this.onCreate, this.onUpdate, this.onPop})
+      : super(key: key);
 
   @override
-  _TodosCreatePageState createState() => _TodosCreatePageState();
+  _TodosCreateEditPageState createState() => _TodosCreateEditPageState();
 }
 
-class _TodosCreatePageState extends State<TodosCreatePage> {
+class _TodosCreateEditPageState extends State<TodosCreateEditPage> {
   static final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  String _title = '';
+  static String _title = '';
 
   bool _validateAndSave() {
     final form = _formKey.currentState;
@@ -34,7 +41,21 @@ class _TodosCreatePageState extends State<TodosCreatePage> {
           FlatButton(
             textColor: Colors.white,
             onPressed: () => {
-              if (_validateAndSave()) widget.onCreate(_title),
+              if (_validateAndSave())
+                {
+                  if (widget.todoState != null && widget.todoState.id > 0)
+                    widget.onUpdate(
+                      TodoState(
+                        id: widget.todoState.id,
+                        done: widget.todoState.done,
+                        title: _title,
+                      ),
+                    )
+                  else
+                    widget.onCreate(_title),
+
+                  widget.onPop(),
+                }
             },
             child: Text("SAVE"),
             key: Key("bt_save"),
@@ -50,6 +71,7 @@ class _TodosCreatePageState extends State<TodosCreatePage> {
             keyboardType: TextInputType.text,
             autofocus: true,
             onSaved: (value) => _title = value,
+            initialValue: widget.todoState?.title,
           ),
         ),
       ),
