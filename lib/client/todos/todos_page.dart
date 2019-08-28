@@ -7,6 +7,7 @@ class TodosPage extends StatelessWidget {
   final List<TodoState> todoList;
   final Function(String) onCreate;
   final Function(TodoState) onUpdate;
+  final Function(int) onRemove;
   final VoidCallback onPop;
 
   TodosPage({
@@ -14,6 +15,7 @@ class TodosPage extends StatelessWidget {
     this.todoList,
     this.onCreate,
     this.onUpdate,
+    this.onRemove,
     this.onPop,
   }) : super(key: key);
 
@@ -31,29 +33,59 @@ class TodosPage extends StatelessWidget {
     );
   }
 
-  Card _buildCard(BuildContext context, TodoState todoState) => Card(
-        elevation: 8.0,
-        child: InkWell(
-          onTap: () => _navigateToCreateEditPage(context, todoState: todoState),
+  Dismissible _buildCard(BuildContext context, TodoState todoState) =>
+      Dismissible(
+        direction: DismissDirection.endToStart,
+        background: Card(
+          elevation: 8.0,
           child: Container(
-            padding: new EdgeInsets.all(10.0),
+            color: Colors.red,
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
-                Text(todoState.title),
-                Checkbox(
-                  value: todoState.done,
-                  onChanged: (value) => {
-                    onUpdate(
-                      new TodoState(
-                        id: todoState.id,
-                        done: value,
-                        title: todoState.title,
-                      ),
-                    )
-                  },
+                Padding(
+                  padding: EdgeInsets.only(right: 15.0),
+                  child: Text(
+                    'Remove',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 15,
+                    ),
+                    textAlign: TextAlign.end,
+                  ),
                 ),
               ],
+            ),
+          ),
+        ),
+        key: Key(UniqueKey().toString()),
+        onDismissed: (direction) => onRemove(todoState.id),
+        child: Card(
+          elevation: 8.0,
+          child: InkWell(
+            onTap: () =>
+                _navigateToCreateEditPage(context, todoState: todoState),
+            child: Container(
+              padding: new EdgeInsets.all(10.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(todoState.title),
+                  Checkbox(
+                    value: todoState.done,
+                    onChanged: (value) => {
+                      onUpdate(
+                        new TodoState(
+                          id: todoState.id,
+                          done: value,
+                          title: todoState.title,
+                        ),
+                      )
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         ),

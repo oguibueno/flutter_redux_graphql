@@ -16,6 +16,7 @@ class TodosConnector extends StatelessWidget {
         todoList: vm.todoList,
         onCreate: vm.onCreate,
         onUpdate: vm.onUpdate,
+        onRemove: vm.onRemove,
         onPop: vm.onPop,
       ),
     );

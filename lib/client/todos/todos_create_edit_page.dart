@@ -9,9 +9,13 @@ class TodosCreateEditPage extends StatefulWidget {
   final Function(TodoState) onUpdate;
   final VoidCallback onPop;
 
-  TodosCreateEditPage(
-      {Key key, this.todoState, this.onCreate, this.onUpdate, this.onPop})
-      : super(key: key);
+  TodosCreateEditPage({
+    Key key,
+    this.todoState,
+    this.onCreate,
+    this.onUpdate,
+    this.onPop,
+  }) : super(key: key);
 
   @override
   _TodosCreateEditPageState createState() => _TodosCreateEditPageState();
@@ -53,7 +57,6 @@ class _TodosCreateEditPageState extends State<TodosCreateEditPage> {
                     )
                   else
                     widget.onCreate(_title),
-
                   widget.onPop(),
                 }
             },

@@ -13,7 +13,10 @@ class UpdateAction extends ReduxAction<AppState> {
       todoList: state.todoList
           .map<TodoState>(
             (_) => _.id == todoState.id
-                ? _ = _.copy(title: todoState.title, done: todoState.done)
+                ? _ = _.copy(
+                    title: todoState.title,
+                    done: todoState.done,
+                  )
                 : _,
           )
           .toList());

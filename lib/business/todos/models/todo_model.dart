@@ -6,19 +6,22 @@ import 'package:flutter_redux_graphql/business/todos/actions/AddAction.dart';
 import 'package:flutter_redux_graphql/business/todos/actions/UpdateAction.dart';
 import 'package:flutter_redux_graphql/business/todos/models/todo_state.dart';
 
+import '../actions/RemoveAction.dart';
+
 class TodoModel extends BaseModel<AppState> {
   TodoModel();
 
   List<TodoState> todoList;
   Function(String) onCreate;
   Function(TodoState) onUpdate;
+  Function(int) onRemove;
   VoidCallback onPop;
-  VoidCallback onPush;
 
   TodoModel.build({
     @required this.todoList,
     @required this.onCreate,
     @required this.onUpdate,
+    @required this.onRemove,
     @required this.onPop,
   }) : super(equals: [todoList]);
 
@@ -27,6 +30,7 @@ class TodoModel extends BaseModel<AppState> {
         todoList: state.todoList,
         onCreate: (title) => dispatch(AddAction(title: title)),
         onUpdate: (todoState) => dispatch(UpdateAction(todoState: todoState)),
+        onRemove: (id) => dispatch(RemoveAction(id: id)),
         onPop: () => dispatch(NavigateAction.pop()),
       );
 }
