@@ -5,14 +5,18 @@ class TodoState {
 
   TodoState({this.id, this.title, this.done});
 
-  factory TodoState.initial() {
-    return new TodoState(id: 0, title: '', done: false);
-  }
+  factory TodoState.initial() => new TodoState(id: 0, title: '', done: false);
 
-  TodoState copy(TodoState todo) => TodoState(
-      id: todo.id ?? this.id,
-      title: todo.title ?? this.title,
-      done: todo.done ?? this.done);
+  TodoState copy({
+    int id,
+    String title,
+    bool done,
+  }) =>
+      TodoState(
+        id: id ?? this.id,
+        title: title ?? this.title,
+        done: done ?? this.done,
+      );
 
   @override
   bool operator ==(Object other) =>
