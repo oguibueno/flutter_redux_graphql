@@ -80,14 +80,15 @@ class TodosPage extends StatelessWidget {
                   Text(todoState.title),
                   Checkbox(
                     value: todoState.done,
-                    onChanged: (value) => {
+                    onChanged: (value) {
                       onUpdate(
                         new TodoState(
                           id: todoState.id,
                           done: value,
                           title: todoState.title,
                         ),
-                      )
+                      );
+                      updateTodoMutationAsync(todoState.id, value);
                     },
                   ),
                 ],
@@ -108,8 +109,18 @@ class TodosPage extends StatelessWidget {
   ''';
 
   final String removeTodo = r'''
-    mutation addTodo($id: Int!) {
+    mutation removeTodo($id: Int!) {
       removeTodo(id: $id) {
+        id
+        title
+        done
+      }
+    }
+  ''';
+
+  final String updateTodo = r'''
+    mutation updateTodo($id: Int!, $done: Boolean) {
+      updateTodo(id: $id, done: $done) {
         id
         title
         done
@@ -123,6 +134,15 @@ class TodosPage extends StatelessWidget {
           uri: 'http://10.0.2.2:4000/graphql',
         ),
       );
+
+  void updateTodoMutationAsync(int id, bool done) async {
+    final MutationOptions options = MutationOptions(
+      document: updateTodo,
+      variables: <String, dynamic>{'id': id, 'done': done},
+    );
+
+    await _graphqlClient().mutate(options);
+  }
 
   void removeTodoMutationAsync(int id) async {
     final MutationOptions options = MutationOptions(

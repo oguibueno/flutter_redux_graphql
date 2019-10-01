@@ -47,8 +47,8 @@ class _TodosCreateEditPageState extends State<TodosCreateEditPage> {
   ''';
 
   final String updateTodo = r'''
-    mutation updateTodo($title: String!) {
-      addTodo(title: $title) {
+    mutation updateTodo($id: Int!, $title: String) {
+      updateTodo(id: $id, title: $title) {
         id
         title
         done
@@ -74,10 +74,10 @@ class _TodosCreateEditPageState extends State<TodosCreateEditPage> {
     await _graphqlClient().mutate(options);
   }
 
-  void updateTodoMutationAsync(int id, bool done) async {
+  void updateTodoMutationAsync(int id, String title) async {
     final MutationOptions options = MutationOptions(
       document: updateTodo,
-      variables: <String, dynamic>{'id': id, 'done': done},
+      variables: <String, dynamic>{'id': id, 'title': title},
     );
 
     await _graphqlClient().mutate(options);
@@ -103,7 +103,7 @@ class _TodosCreateEditPageState extends State<TodosCreateEditPage> {
                   );
                   updateTodoMutationAsync(
                     widget.todoState.id,
-                    widget.todoState.done,
+                    _title,
                   );
                 } else {
                   widget.onCreate(_title);
