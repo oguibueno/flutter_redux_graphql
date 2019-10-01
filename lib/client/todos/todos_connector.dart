@@ -14,6 +14,7 @@ class TodosConnector extends StatelessWidget {
       model: TodoModel(),
       builder: (BuildContext context, TodoModel vm) => TodosPage(
         todoList: vm.todoList,
+        populateList: vm.populateList,
         onCreate: vm.onCreate,
         onUpdate: vm.onUpdate,
         onRemove: vm.onRemove,

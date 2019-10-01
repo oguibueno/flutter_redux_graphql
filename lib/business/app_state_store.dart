@@ -7,12 +7,11 @@ var store = Store<AppState>(
 
 class AppState {
   final List<TodoState> todoList;
-  final Event<TodoState> onAdd;
 
-  AppState({this.todoList, this.onAdd});
+  AppState({this.todoList});
 
-  AppState copy({List<TodoState> todoList, Event<TodoState> onAdd}) =>
-      AppState(todoList: todoList ?? this.todoList, onAdd: onAdd ?? this.onAdd);
+  AppState copy({List<TodoState> todoList}) =>
+      AppState(todoList: todoList ?? this.todoList);
 
   static AppState initialState() => AppState(todoList: <TodoState>[]);
 
