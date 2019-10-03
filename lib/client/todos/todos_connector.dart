@@ -12,8 +12,10 @@ class TodosConnector extends StatelessWidget {
     return StoreConnector<AppState, TodoModel>(
       distinct: true,
       model: TodoModel(),
+      onInitialBuild: (vm) => vm.onQuery(),
       builder: (BuildContext context, TodoModel vm) => TodosPage(
         todoList: vm.todoList,
+        onQuery: vm.onQuery,
         onCreate: vm.onCreate,
         onUpdate: vm.onUpdate,
         onRemove: vm.onRemove,

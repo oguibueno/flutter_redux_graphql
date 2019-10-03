@@ -19,6 +19,7 @@ class TodosApp extends StatelessWidget {
   Widget build(BuildContext context) => StoreProvider<AppState>(
         store: store,
         child: MaterialApp(
+          theme: ThemeData.dark(),
           home: TodosConnector(),
           routes: routes,
           navigatorKey: navigatorKey,

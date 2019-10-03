@@ -5,6 +5,7 @@ import 'package:flutter_redux_graphql/client/todos/todos_create_edit_page.dart';
 
 class TodosPage extends StatelessWidget {
   final List<TodoState> todoList;
+  final Function() onQuery;
   final Function(String) onCreate;
   final Function(TodoState) onUpdate;
   final Function(int) onRemove;
@@ -13,11 +14,35 @@ class TodosPage extends StatelessWidget {
   TodosPage({
     Key key,
     this.todoList,
+    this.onQuery,
     this.onCreate,
     this.onUpdate,
     this.onRemove,
     this.onPop,
   }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Flutter + Redux + GraphQL')),
+      body: Stack(
+        children: <Widget>[
+          Container(
+            child: ListView.builder(
+              padding: const EdgeInsets.all(8.0),
+              itemCount: todoList.length,
+              itemBuilder: (BuildContext context, int index) =>
+                  _buildCard(context, todoList[index]),
+            ),
+          ),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => _navigateToCreateEditPage(context),
+        child: Icon(Icons.add),
+      ),
+    );
+  }
 
   void _navigateToCreateEditPage(BuildContext context, {TodoState todoState}) {
     Navigator.push(
@@ -74,15 +99,13 @@ class TodosPage extends StatelessWidget {
                   Text(todoState.title),
                   Checkbox(
                     value: todoState.done,
-                    onChanged: (value) => {
-                      onUpdate(
-                        new TodoState(
-                          id: todoState.id,
-                          done: value,
-                          title: todoState.title,
-                        ),
-                      )
-                    },
+                    onChanged: (value) => onUpdate(
+                      new TodoState(
+                        id: todoState.id,
+                        done: value,
+                        title: todoState.title,
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -90,27 +113,4 @@ class TodosPage extends StatelessWidget {
           ),
         ),
       );
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Flutter + Redux + GraphQL')),
-      body: Stack(
-        children: <Widget>[
-          Container(
-            child: ListView.builder(
-              padding: const EdgeInsets.all(8.0),
-              itemCount: todoList.length,
-              itemBuilder: (BuildContext context, int index) =>
-                  _buildCard(context, todoList[index]),
-            ),
-          ),
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => _navigateToCreateEditPage(context),
-        child: Icon(Icons.add),
-      ),
-    );
-  }
 }

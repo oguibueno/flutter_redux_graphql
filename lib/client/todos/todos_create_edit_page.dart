@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-
 import '../../business/todos/models/todo_state.dart';
 
 class TodosCreateEditPage extends StatefulWidget {
@@ -44,21 +43,21 @@ class _TodosCreateEditPageState extends State<TodosCreateEditPage> {
         actions: <Widget>[
           FlatButton(
             textColor: Colors.white,
-            onPressed: () => {
-              if (_validateAndSave())
-                {
-                  if (widget.todoState != null && widget.todoState.id > 0)
-                    widget.onUpdate(
-                      TodoState(
-                        id: widget.todoState.id,
-                        done: widget.todoState.done,
-                        title: _title,
-                      ),
-                    )
-                  else
-                    widget.onCreate(_title),
-                  widget.onPop(),
+            onPressed: () {
+              if (_validateAndSave()) {
+                if (widget.todoState != null && widget.todoState.id > 0) {
+                  widget.onUpdate(
+                    TodoState(
+                      id: widget.todoState.id,
+                      done: widget.todoState.done,
+                      title: _title,
+                    ),
+                  );
+                } else {
+                  widget.onCreate(_title);
                 }
+                widget.onPop();
+              }
             },
             child: Text("SAVE"),
             key: Key("bt_save"),
