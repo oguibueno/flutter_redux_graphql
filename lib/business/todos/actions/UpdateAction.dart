@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux_graphql/business/app_state_store.dart';
-import 'package:async_redux/async_redux.dart';
 import 'package:flutter_redux_graphql/business/todos/models/todo_state.dart';
+import 'package:async_redux/async_redux.dart';
 import 'package:graphql/client.dart';
 import '../../graphql_client.dart';
 
 class UpdateAction extends ReduxAction<AppState> {
-  final TodoState todoState;
+  final int id;
+  final String title;
+  final bool done;
 
-  UpdateAction({@required this.todoState}) : assert(todoState.id > 0);
+  UpdateAction({@required this.id, this.title, this.done}) : assert(id > 0);
 
   final String updateTodo = r'''
     mutation updateTodo($id: Int!, $title: String, $done: Boolean) {
@@ -25,9 +27,9 @@ class UpdateAction extends ReduxAction<AppState> {
     final MutationOptions options = MutationOptions(
       document: updateTodo,
       variables: <String, dynamic>{
-        'id': todoState.id,
-        'title': todoState.title,
-        'done': todoState.done,
+        'id': this.id,
+        'title': this.title,
+        'done': this.done,
       },
     );
 
@@ -37,10 +39,10 @@ class UpdateAction extends ReduxAction<AppState> {
       return state.copy(
           todoList: state.todoList
               .map<TodoState>(
-                (_) => _.id == todoState.id
+                (_) => _.id == this.id
                     ? _ = _.copy(
-                        title: todoState.title,
-                        done: todoState.done,
+                        title: this.title,
+                        done: this.done,
                       )
                     : _,
               )

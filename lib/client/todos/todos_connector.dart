@@ -1,7 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_redux_graphql/business/todos/models/todo_model.dart';
 import 'package:flutter_redux_graphql/business/app_state_store.dart';
 import 'package:async_redux/async_redux.dart';
-import 'package:flutter/material.dart';
 import 'todos_page.dart';
 
 class TodosConnector extends StatelessWidget {

@@ -1,5 +1,5 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_redux_graphql/business/todos/models/todo_state.dart';
 import 'package:flutter_redux_graphql/client/todos/todos_create_edit_page.dart';
 
@@ -7,7 +7,7 @@ class TodosPage extends StatelessWidget {
   final List<TodoState> todoList;
   final Function() onQuery;
   final Function(String) onCreate;
-  final Function(TodoState) onUpdate;
+  final Function(int, String, bool) onUpdate;
   final Function(int) onRemove;
   final VoidCallback onPop;
 
@@ -100,11 +100,9 @@ class TodosPage extends StatelessWidget {
                   Checkbox(
                     value: todoState.done,
                     onChanged: (value) => onUpdate(
-                      new TodoState(
-                        id: todoState.id,
-                        done: value,
-                        title: todoState.title,
-                      ),
+                      todoState.id,
+                      todoState.title,
+                      value,
                     ),
                   ),
                 ],

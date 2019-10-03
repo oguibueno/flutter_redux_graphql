@@ -1,11 +1,11 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import '../../business/todos/models/todo_state.dart';
 
 class TodosCreateEditPage extends StatefulWidget {
   final TodoState todoState;
   final Function(String) onCreate;
-  final Function(TodoState) onUpdate;
+  final Function(int, String, bool) onUpdate;
   final VoidCallback onPop;
 
   TodosCreateEditPage({
@@ -47,11 +47,9 @@ class _TodosCreateEditPageState extends State<TodosCreateEditPage> {
               if (_validateAndSave()) {
                 if (widget.todoState != null && widget.todoState.id > 0) {
                   widget.onUpdate(
-                    TodoState(
-                      id: widget.todoState.id,
-                      done: widget.todoState.done,
-                      title: _title,
-                    ),
+                    widget.todoState.id,
+                    _title,
+                    widget.todoState.done,
                   );
                 } else {
                   widget.onCreate(_title);
