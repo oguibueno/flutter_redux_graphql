@@ -1,13 +1,13 @@
 import 'package:flutter_redux_graphql/business/app_state_store.dart';
 import 'package:async_redux/async_redux.dart';
-import 'package:flutter_redux_graphql/business/todos/models/todo_state.dart';
+import 'package:flutter_redux_graphql/business/todos/models/todo.dart';
 import 'package:graphql/client.dart';
 import '../../graphql_client.dart';
 
 class QueryAction extends ReduxAction<AppState> {
   QueryAction();
 
-  final String todosQuery = r'''
+  static const todosQuery = r'''
     query todos($title: String!) {  
       todos (title: $title) {
         id,
@@ -29,17 +29,11 @@ class QueryAction extends ReduxAction<AppState> {
     final QueryResult result = await GraphQLClientAPI.client().query(options);
 
     if (!result.hasErrors) {
-      return state.copy(
-        todoList: (result.data['todos'] as List)
-            .map(
-              (_) => TodoState(
-                id: _['id'],
-                done: _['done'],
-                title: _['title'],
-              ),
-            )
-            .toList(),
-      );
+      var todoList = (result.data['todos'] as List)
+          .map((_) => Todo(id: _['id'], done: _['done'], title: _['title']))
+          .toList();
+
+      return state.copy(todoList: todoList);
     }
 
     return state;

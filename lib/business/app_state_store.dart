@@ -1,19 +1,19 @@
 import 'package:async_redux/async_redux.dart';
-import 'todos/models/todo_state.dart';
+import 'todos/models/todo.dart';
 
 var store = Store<AppState>(
   initialState: AppState.initialState(),
 );
 
 class AppState {
-  final List<TodoState> todoList;
+  final List<Todo> todoList;
 
   AppState({this.todoList});
 
-  AppState copy({List<TodoState> todoList}) =>
+  AppState copy({List<Todo> todoList}) =>
       AppState(todoList: todoList ?? this.todoList);
 
-  static AppState initialState() => AppState(todoList: <TodoState>[]);
+  static AppState initialState() => AppState(todoList: <Todo>[]);
 
   @override
   bool operator ==(Object other) =>

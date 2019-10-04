@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_redux_graphql/business/todos/models/todo_state.dart';
+import 'package:flutter_redux_graphql/business/todos/models/todo.dart';
 import 'package:flutter_redux_graphql/client/todos/todos_create_edit_page.dart';
 
 class TodosPage extends StatelessWidget {
-  final List<TodoState> todoList;
+  final List<Todo> todoList;
   final Function() onQuery;
   final Function(String) onCreate;
   final Function(int, String, bool) onUpdate;
@@ -44,12 +44,12 @@ class TodosPage extends StatelessWidget {
     );
   }
 
-  void _navigateToCreateEditPage(BuildContext context, {TodoState todoState}) {
+  void _navigateToCreateEditPage(BuildContext context, {Todo todo}) {
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => TodosCreateEditPage(
-          todoState: todoState,
+          todo: todo,
           onCreate: onCreate,
           onUpdate: onUpdate,
           onPop: onPop,
@@ -58,8 +58,7 @@ class TodosPage extends StatelessWidget {
     );
   }
 
-  Dismissible _buildCard(BuildContext context, TodoState todoState) =>
-      Dismissible(
+  Dismissible _buildCard(BuildContext context, Todo todo) => Dismissible(
         direction: DismissDirection.endToStart,
         background: Card(
           elevation: 8.0,
@@ -85,23 +84,25 @@ class TodosPage extends StatelessWidget {
           ),
         ),
         key: Key(UniqueKey().toString()),
-        onDismissed: (direction) => onRemove(todoState.id),
+        onDismissed: (direction) => onRemove(todo.id),
         child: Card(
           elevation: 8.0,
           child: InkWell(
-            onTap: () =>
-                _navigateToCreateEditPage(context, todoState: todoState),
+            onTap: () => _navigateToCreateEditPage(
+              context,
+              todo: todo,
+            ),
             child: Container(
-              padding: new EdgeInsets.all(10.0),
+              padding: EdgeInsets.all(10.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Text(todoState.title),
+                  Text(todo.title),
                   Checkbox(
-                    value: todoState.done,
+                    value: todo.done,
                     onChanged: (value) => onUpdate(
-                      todoState.id,
-                      todoState.title,
+                      todo.id,
+                      todo.title,
                       value,
                     ),
                   ),

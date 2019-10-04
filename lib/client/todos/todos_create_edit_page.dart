@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
-import '../../business/todos/models/todo_state.dart';
+import '../../business/todos/models/todo.dart';
 
 class TodosCreateEditPage extends StatefulWidget {
-  final TodoState todoState;
+  final Todo todo;
   final Function(String) onCreate;
   final Function(int, String, bool) onUpdate;
   final VoidCallback onPop;
 
   TodosCreateEditPage({
     Key key,
-    this.todoState,
+    this.todo,
     this.onCreate,
     this.onUpdate,
     this.onPop,
@@ -21,8 +21,8 @@ class TodosCreateEditPage extends StatefulWidget {
 }
 
 class _TodosCreateEditPageState extends State<TodosCreateEditPage> {
-  static final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  static String _title = '';
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  String _title = '';
 
   bool _validateAndSave() {
     final form = _formKey.currentState;
@@ -45,11 +45,11 @@ class _TodosCreateEditPageState extends State<TodosCreateEditPage> {
             textColor: Colors.white,
             onPressed: () {
               if (_validateAndSave()) {
-                if (widget.todoState != null && widget.todoState.id > 0) {
+                if (widget.todo != null && widget.todo.id > 0) {
                   widget.onUpdate(
-                    widget.todoState.id,
+                    widget.todo.id,
                     _title,
-                    widget.todoState.done,
+                    widget.todo.done,
                   );
                 } else {
                   widget.onCreate(_title);
@@ -71,7 +71,7 @@ class _TodosCreateEditPageState extends State<TodosCreateEditPage> {
             keyboardType: TextInputType.text,
             autofocus: true,
             onSaved: (value) => _title = value,
-            initialValue: widget.todoState?.title,
+            initialValue: widget.todo?.title,
           ),
         ),
       ),

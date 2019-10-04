@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_redux_graphql/business/app_state_store.dart';
-import 'package:flutter_redux_graphql/business/todos/models/todo_state.dart';
+import 'package:flutter_redux_graphql/business/todos/models/todo.dart';
 import 'package:async_redux/async_redux.dart';
 import '../actions/Actions.dart';
 
 class TodoModel extends BaseModel<AppState> {
   TodoModel();
 
-  List<TodoState> todoList;
-  Function() onQuery;
+  List<Todo> todoList;
+  VoidCallback onQuery;
   Function(String) onCreate;
   Function(int, String, bool) onUpdate;
   Function(int) onRemove;

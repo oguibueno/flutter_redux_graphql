@@ -1,18 +1,18 @@
-class TodoState {
+class Todo {
   final int id;
   final String title;
   final bool done;
 
-  TodoState({this.id, this.title, this.done});
+  Todo({this.id, this.title, this.done});
 
-  factory TodoState.initial() => new TodoState(id: 0, title: '', done: false);
+  factory Todo.initial() => new Todo(id: 0, title: '', done: false);
 
-  TodoState copy({
+  Todo copy({
     int id,
     String title,
     bool done,
   }) =>
-      TodoState(
+      Todo(
         id: id ?? this.id,
         title: title ?? this.title,
         done: done ?? this.done,
@@ -21,7 +21,7 @@ class TodoState {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is TodoState &&
+      other is Todo &&
           runtimeType == other.runtimeType &&
           id == other.id &&
           title == other.title &&

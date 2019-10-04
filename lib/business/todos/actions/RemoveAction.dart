@@ -9,7 +9,7 @@ class RemoveAction extends ReduxAction<AppState> {
 
   RemoveAction({@required this.id}) : assert(id > 0);
 
-  final String removeTodo = r'''
+  static const removeTodo = r'''
     mutation removeTodo($id: Int!) {
       removeTodo(id: $id) {
         id
@@ -29,9 +29,9 @@ class RemoveAction extends ReduxAction<AppState> {
     var result = await GraphQLClientAPI.client().mutate(options);
 
     if (!result.hasErrors) {
-      return state.copy(
-        todoList: state.todoList.where((_) => _.id != id).toList(),
-      );
+      var todoList = state.todoList.where((_) => _.id != id).toList();
+
+      return state.copy(todoList: todoList);
     }
 
     return state;
