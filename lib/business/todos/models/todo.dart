@@ -5,7 +5,7 @@ class Todo {
 
   Todo({this.id, this.title, this.done});
 
-  factory Todo.initial() => new Todo(id: 0, title: '', done: false);
+  factory Todo.initial() => Todo(id: 0, title: '', done: false);
 
   Todo copy({
     int id,

@@ -11,17 +11,12 @@ void main() {
 }
 
 class TodosApp extends StatelessWidget {
-  final routes = {
-    "/todos": (BuildContext context) => TodosConnector(),
-  };
-
   @override
   Widget build(BuildContext context) => StoreProvider<AppState>(
         store: store,
         child: MaterialApp(
           theme: ThemeData.dark(),
           home: TodosConnector(),
-          routes: routes,
           navigatorKey: navigatorKey,
         ),
       );
